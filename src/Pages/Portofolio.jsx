@@ -63,15 +63,17 @@ const mockProjects = [
 ];
 
 const mockCertificates = [
-  { id: 1, Img: "c1.jpg" },
-  { id: 2, Img: "c2.jpg" },
-  { id: 3, Img: "c3.jpg" },
-  { id: 4, Img: "c4.jpg" },
-  { id: 5, Img: "c5.jpg" },
-  { id: 6, Img: "c6.png" },
-  { id: 7, Img: "c7.jpg" },
-  { id: 8, Img: "c8.jpg" },
-  { id: 9, Img: "c9.jpg" },
+  { id: 8, Img: "c1.jpg" },
+  { id: 9, Img: "c2.jpg" },
+  { id: 5, Img: "c3.jpg" },
+  { id: 6, Img: "c4.jpg" },
+  { id: 4, Img: "c5.jpg" },
+  { id: 2, Img: "c6.png" },
+  { id: 3, Img: "c7.jpg" },
+  { id: 10, Img: "c8.jpg" },
+  { id: 7, Img: "c9.jpg" },
+  { id: 1, Img: "c10.png" },
+
 ];
 
 const ToggleButton = ({ onClick, isShowingMore }) => (
