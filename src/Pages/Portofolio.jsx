@@ -1,7 +1,4 @@
 import React, { useEffect, useState, useCallback } from "react";
-
-import { supabase } from "../supabase"; 
-
 import PropTypes from "prop-types";
 import SwipeableViews from "react-swipeable-views";
 import { useTheme } from "@mui/material/styles";
@@ -17,26 +14,85 @@ import "aos/dist/aos.css";
 import Certificate from "../components/Certificate";
 import { Code, Award, Boxes } from "lucide-react";
 
+// Mock data to replace Supabase fetched data
+const mockProjects = [
+  {
+    id: 1,
+    created_at: "2025-08-15 09:35:56.407415+00",
+    Title: "ReactJS Full Stack Interactive Bookstore Application",
+    Description: "Full-stack React bookstore app allowing users to browse, search, and purchase books with cart management, checkout process, and API integration",
+    Img: "https://res.cloudinary.com/deense0dl/image/upload/v1755269417/Screenshot_2025-08-15_201525_qcqpk0.png",
+    Link: "https://sr-book-store-app.vercel.app",
+    Github: "https://github.com/sai-roshan-dev/book-store-app",
+    Features: ["Book search & filtering", "Add to cart & remove from cart", "Book details view", "Checkout & order confirmation", "Route-based navigation", "Persistent cart state with Context API", "Form validation for user details"],
+    TechStack: ["React.js", "React Router DOM", "Context API", "CSS3", "react-loader-spinner", "rc-slider", "react-icons", "IT Bookstore API"],
+  },
+  {
+    id: 2,
+    created_at: "2025-08-15 09:50:46.527712+00",
+    Title: "TrendBuy — E-commerce React Application",
+    Description: "Responsive React.js e-commerce platform with cart functionality, product filtering, authentication, and Prime Deals feature.",
+    Img: "https://res.cloudinary.com/deense0dl/image/upload/v1755269381/Screenshot_2025-08-15_201546_jdytfm.png",
+    Link: "https://trendbuy.vercel.app",
+    Github: "https://github.com/sai-roshan-dev/trendbuy",
+    Features: ["User authentication", "Protected routes", "Cart management", "Product filtering & search", "Prime Deals section", "Responsive design"],
+    TechStack: ["React.js", "Context API", "React Router", "CSS"],
+  },
+  {
+    id: 3,
+    created_at: "2025-08-15 11:38:52.455036+00",
+    Title: "ResumeToJobAI — AI-Powered Resume & Job Matching Platform",
+    Description: "An AI-powered, full-stack platform that helps job seekers. It analyzes uploaded resumes, provides actionable feedback, and matches skills to real-time job listings from the Adzuna API. The project features a responsive UI, an analytics dashboard, and user authentication to provide a complete career-building tool.",
+    Img: "https://res.cloudinary.com/deense0dl/image/upload/v1755269404/Screenshot_2025-08-15_201503_waojii.png",
+    Link: "https://resumetojobai.vercel.app",
+    Github: "https://github.com/sai-roshan-dev/ResumeToJobAI",
+    Features: ["AI-powered resume analysis with a numeric rating", "AI-driven job matching based on resume content", "Search for real-time jobs using the Adzuna API", "User authentication and protected routes", "Historical data tracking and management", "Analytics dashboard with charts and statistics", "Responsive and user-friendly interface"],
+    TechStack: ["React.js", "React Router DOM", "Node.js", "Express.js", "MongoDB", "Google Gemini API", "Adzuna API", "Recharts", "JWT"],
+  },
+  {
+    id: 4,
+    created_at: "2025-08-15 14:59:44+00",
+    Title: "AIGiftMate — AI-Powered Gift Recommendation Platform",
+    Description: "Choosing the perfect gift can be challenging. AIGiftMate solves this by bringing everything into one place — an AI-powered platform that suggests personalized gifts using Google Gemini AI, alongside a curated product catalog. Users can browse trending items, explore existing catalog data, or discover dynamically generated recommendations based on survey inputs. The platform ensures a secure, seamless experience with authentication, wishlist management, and a responsive interface.",
+    Img: "https://res.cloudinary.com/deense0dl/image/upload/v1755269351/Screenshot_2025-08-15_201700_dciwlw.png",
+    Link: "https://aigiftmate.vercel.app",
+    Github: "https://github.com/sai-roshan-dev/AIGiftMate",
+    Features: ["AI-Powered Personalized Recommendations using Google Gemini API", "Trending Gifts Page with curated suggestions", "JWT Authentication and Role-Based Access", "Wishlist Functionality with MongoDB Storage", "Dynamic Product Catalog and Image Integration via Unsplash API", "Filtering and Sorting for Enhanced Search", "Protected Admin Dashboard for Managing Recommendations", "Responsive and User-Friendly UI"],
+    TechStack: ["React.js", "Node.js", "Express.js", "MongoDB", "Google Gemini API", "Unsplash API", "JWT"],
+  },
+];
+
+const mockCertificates = [
+  { id: 1, Img: "c1.jpg" },
+  { id: 2, Img: "c2.jpg" },
+  { id: 3, Img: "c3.jpg" },
+  { id: 4, Img: "c4.jpg" },
+  { id: 5, Img: "c5.jpg" },
+  { id: 6, Img: "c6.png" },
+  { id: 7, Img: "c7.jpg" },
+  { id: 8, Img: "c8.jpg" },
+  { id: 9, Img: "c9.jpg" },
+];
 
 const ToggleButton = ({ onClick, isShowingMore }) => (
   <button
     onClick={onClick}
     className="
       px-3 py-1.5
-      text-slate-300 
-      hover:text-white 
-      text-sm 
-      font-medium 
-      transition-all 
-      duration-300 
+      text-slate-300
+      hover:text-white
+      text-sm
+      font-medium
+      transition-all
+      duration-300
       ease-in-out
-      flex 
-      items-center 
+      flex
+      items-center
       gap-2
-      bg-white/5 
+      bg-white/5
       hover:bg-white/10
       rounded-md
-      border 
+      border
       border-white/10
       hover:border-white/20
       backdrop-blur-sm
@@ -58,8 +114,8 @@ const ToggleButton = ({ onClick, isShowingMore }) => (
         strokeLinecap="round"
         strokeLinejoin="round"
         className={`
-          transition-transform 
-          duration-300 
+          transition-transform
+          duration-300
           ${isShowingMore ? "group-hover:-translate-y-0.5" : "group-hover:translate-y-0.5"}
         `}
       >
@@ -102,7 +158,6 @@ function a11yProps(index) {
   };
 }
 
-// techStacks tetap sama
 const techStacks = [
   { icon: "html.svg", language: "HTML" },
   { icon: "css.svg", language: "CSS" },
@@ -123,7 +178,6 @@ const techStacks = [
   { icon: "aws.svg", language: "AWS" },
   { icon: "vite.svg", language: "Vite" },
   { icon: "vercel.svg", language: "Vercel" },
-  { icon: "supabase.png", language: "Supabase" },
 ];
 
 export default function FullWidthTabs() {
@@ -142,48 +196,12 @@ export default function FullWidthTabs() {
     });
   }, []);
 
-
-  const fetchData = useCallback(async () => {
-    try {
-      // Mengambil data dari Supabase secara paralel
-      const [projectsResponse, certificatesResponse] = await Promise.all([
-        supabase.from("projects").select("*").order('id', { ascending: false }),
-        supabase.from("certificates").select("*").order('id', { ascending: false }), 
-      ]);
-
-      // Error handling untuk setiap request
-      if (projectsResponse.error) throw projectsResponse.error;
-      if (certificatesResponse.error) throw certificatesResponse.error;
-
-      // Supabase mengembalikan data dalam properti 'data'
-      const projectData = projectsResponse.data || [];
-      const certificateData = certificatesResponse.data || [];
-
-      setProjects(projectData);
-      setCertificates(certificateData);
-
-      // Store in localStorage (fungsionalitas ini tetap dipertahankan)
-      localStorage.setItem("projects", JSON.stringify(projectData));
-      localStorage.setItem("certificates", JSON.stringify(certificateData));
-    } catch (error) {
-      console.error("Error fetching data from Supabase:", error.message);
-    }
-  }, []);
-
-
-
   useEffect(() => {
-    // Coba ambil dari localStorage dulu untuk laod lebih cepat
-    const cachedProjects = localStorage.getItem('projects');
-    const cachedCertificates = localStorage.getItem('certificates');
-
-    if (cachedProjects && cachedCertificates) {
-        setProjects(JSON.parse(cachedProjects));
-        setCertificates(JSON.parse(cachedCertificates));
-    }
-    
-    fetchData(); // Tetap panggil fetchData untuk sinkronisasi data terbaru
-  }, [fetchData]);
+    setProjects(mockProjects);
+    setCertificates(mockCertificates);
+    localStorage.setItem("projects", JSON.stringify(mockProjects));
+    localStorage.setItem("certificates", JSON.stringify(mockCertificates));
+  }, []);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -200,10 +218,8 @@ export default function FullWidthTabs() {
   const displayedProjects = showAllProjects ? projects : projects.slice(0, initialItems);
   const displayedCertificates = showAllCertificates ? certificates : certificates.slice(0, initialItems);
 
-  // Sisa dari komponen (return statement) tidak ada perubahan
   return (
     <div className="md:px-[10%] px-[5%] w-full sm:mt-0 mt-[3rem] bg-[#030014] overflow-hidden" id="Portofolio">
-      {/* Header section - unchanged */}
       <div className="text-center pb-10" data-aos="fade-up" data-aos-duration="1000">
         <h2 className="inline-block text-3xl md:text-5xl font-bold text-center mx-auto text-transparent bg-clip-text bg-gradient-to-r from-[#6366f1] to-[#a855f7]">
           <span style={{
@@ -217,13 +233,12 @@ export default function FullWidthTabs() {
           </span>
         </h2>
         <p className="text-slate-400 max-w-2xl mx-auto text-sm md:text-base mt-2">
-          Explore my journey through projects, certifications, and technical expertise. 
+          Explore my journey through projects, certifications, and technical expertise.
           Each section represents a milestone in my continuous learning path.
         </p>
       </div>
 
       <Box sx={{ width: "100%" }}>
-        {/* AppBar and Tabs section - unchanged */}
         <AppBar
           position="static"
           elevation={0}
@@ -247,7 +262,6 @@ export default function FullWidthTabs() {
           }}
           className="md:px-4"
         >
-          {/* Tabs remain unchanged */}
           <Tabs
             value={value}
             onChange={handleChange}
