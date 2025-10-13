@@ -140,7 +140,7 @@ const StatCard = memo(({ icon: Icon, color, value, label, description, animation
           <Icon className="w-8 h-8 text-white" />
         </div>
       </div>
-
+       {value}
       <div>
         <p 
           className="text-sm uppercase tracking-wider text-gray-300 mb-2"
