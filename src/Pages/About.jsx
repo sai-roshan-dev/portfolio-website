@@ -182,7 +182,7 @@ const AboutPage = () => {
     return {
       totalProjects: storedProjects.length,
       totalCertificates: storedCertificates.length,
-      YearExperience: experience
+      YearExperience: experience > 1 ? experience : 1,
     };
   }, []);
 
