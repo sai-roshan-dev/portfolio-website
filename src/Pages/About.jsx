@@ -269,8 +269,8 @@ const AboutPage = () => {
               data-aos="fade-right"
               data-aos-duration="1500"
             >
-              A recent B.Tech graduate from IIIT Nuzvid College, currently undergoing training in the NxtWave CCBP 4.0 program. I specialize in Full-Stack Web Development using React.js, Node.js, Express.js, and MongoDB. I am passionate about solving real-world problems and building web applications that are functional, efficient, and user-friendly.
-             </p>
+I’m a Full Stack Developer with experience in MERN and AI integrations, passionate about building intelligent, scalable, and user-focused web applications.
+Currently working as an AI Engineer Intern at Gamyam and a learner at NxtWave CCBP 4.0 Academy, I love creating smart and efficient solutions that bridge technology and real-world impact.             </p>
 
             <p>My projects emphasize clean code, responsive design, and modern UI/UX principles. 
               I am seeking opportunities to apply my skills, learn continuously, and contribute to impactful solutions.
