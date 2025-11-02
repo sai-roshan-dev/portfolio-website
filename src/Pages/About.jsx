@@ -89,7 +89,7 @@ const Header = memo(() => (
   </div>
 ));
 
-const ProfileImage = memo(() => (
+const ProfileImage = memo(({ name }) => (
   <div className="flex justify-end items-center sm:p-12 sm:py-0 sm:pb-0 p-0 py-2 pb-2">
     <div 
       className="relative group" 
@@ -114,9 +114,13 @@ const ProfileImage = memo(() => (
           <img
             src="/Photo.jpg"
             alt="Profile"
+            title="my profile image"
             className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110 group-hover:rotate-2"
             loading="lazy"
           />
+          <div className="absolute bottom-0 left-0 right-0 bg-black/50 text-white text-center py-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+            {name}
+          </div>
 
           {/* Advanced hover effects - desktop only */}
           <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-all duration-700 z-20 hidden sm:block">
@@ -330,7 +334,7 @@ Currently working as an AI Engineer Intern at Gamyam and a learner at NxtWave CC
               </button>
             </div>
           </div>
-          <ProfileImage />
+          <ProfileImage name="Sai Roshan Neelam" />
         </div>
 
         <a href="#Portofolio">
